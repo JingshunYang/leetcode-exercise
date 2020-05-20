@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 /*
  * @lc app=leetcode.cn id=94 lang=java
  *
@@ -39,19 +37,13 @@ import java.util.ArrayList;
  * 后序遍历：左子树 ---> 右子树 ---> 根结点
  */
 
-// @lc code=start
 /**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode(int x) { val = x; }
- * }
+ * Definition for a binary tree node. public class TreeNode { int val; TreeNode
+ * left; TreeNode right; TreeNode(int x) { val = x; } }
  */
 
 // solution1: 递归解法
-class Solution {
+class Solution1 {
     // 时间复杂度：O(n) 递归函数T(n) = T(n/2) + 1 满足主定理第1种情况
     // 空间复杂度：最坏情况O(n), 平均情况O(lgn)
     public List<Integer> inorderTraversal(TreeNode root) {
@@ -61,7 +53,8 @@ class Solution {
     }
 
     public void helper(TreeNode root, List<Integer> res) {
-        if (root == null) return;
+        if (root == null)
+            return;
         if (root.left != null) {
             helper(root.left, res);
         }
@@ -71,6 +64,27 @@ class Solution {
         }
     }
 }
-// @lc code=end
 
+// @lc code=start
 // solution2: 基于栈的遍历
+// 其本质思想是：因为优先访问左子树，则一方面需要找到最底层的左子节点，另一方面节点先入后出需用栈的结构存储经过的节点；在栈中的节点在pop时被正式访问其值，因中序遍历又需处理其右子树。
+class Solution2 {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        Stack<TreeNode> stack = new Stack<>();
+
+        TreeNode curr = root;
+        while (curr != null || !stack.isEmpty()) {
+            while (curr != null) {
+                stack.push(curr);
+                curr = curr.left;
+            }
+            curr = stack.pop();
+            res.add(curr.val);
+            curr = curr.right;
+        }
+
+        return res;
+    }
+}
+// @lc code=end
