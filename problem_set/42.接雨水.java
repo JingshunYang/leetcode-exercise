@@ -57,5 +57,36 @@
         return ans;
     }
 }
+
+/**
+ * 解法3：双指针解法
+ * 时间复杂度O(n), 空间复杂度O(1)
+ */
+class Solution {
+    public int trap(int[] height) {
+        int ans = 0;
+        int left = 0, right = height.length - 1;
+        int max_left = 0, max_right = 0;
+        while (left < right) {
+            if (height[left] < height[right]) {
+                if (height[left] > max_left ) {
+                    max_left = height[left];
+                } else {
+                    ans += max_left - height[left];
+                }
+                left++;
+            } else {
+                if (height[right] > max_right) {
+                    max_right = height[right];
+                } else {
+                    ans += max_right - height[right];
+                }
+                right--;
+            }
+        }
+        return  ans;
+    }
+}
+
  // @lc code=end
 
